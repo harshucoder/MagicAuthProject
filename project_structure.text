@@ -1,0 +1,52 @@
+- .env.local
+- .gitignore
+- eslint.config.mjs
+- next-env.d.ts
+- next.config.ts
+- package-lock.json
+- package.json
+- postcss.config.mjs
+- project_structure.text
+- public
+  - database.png
+  - HeroStack.png
+  - locked.png
+  - mail.png
+  - time.png
+- README.md
+- src
+  - app
+    - api
+      - auth
+        - send-link
+          - route.ts
+        - testConnection
+          - route.ts
+        - verify
+          - route.ts
+    - auth
+      - login
+        - page.tsx
+    - Components
+      - Sections
+        - FeatureSection.tsx
+        - Footer.tsx
+        - HeroSection.tsx
+        - Navbar.tsx
+      - UI
+        - Button.tsx
+        - Cards.tsx
+    - Dashboard
+      - page.tsx
+    - globals.css
+    - LandingPage
+      - Page.tsx
+    - layout.tsx
+    - lib
+      - db.ts
+      - mailer.ts
+    - models
+      - User.ts
+    - page.tsx
+- tailwind.config.ts
+- tsconfig.json
