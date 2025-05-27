@@ -4,10 +4,7 @@ import DevUser from "../../../models/DevUser";
 import { sendMagicLink } from "../../../lib/mailer";
 import crypto from "crypto";
 
-interface Token {
-  token: string;
-  expiresAt: number;
-}
+
 
 export async function POST(req: Request) {
   try {

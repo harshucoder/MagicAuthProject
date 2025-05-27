@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 interface DecodedToken {
   userId: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface Settings {
