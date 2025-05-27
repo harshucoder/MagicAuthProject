@@ -20,7 +20,7 @@ export const sendMagicLink = async (
   token: string,
   type: "user" | "client" = "user"
 ) => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
   // Dynamically choose path based on who is logging in
   const loginPath = type === "client" ? "/client/verify" : "/auth/login";

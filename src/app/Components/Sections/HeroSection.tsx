@@ -38,7 +38,7 @@ const HeroSection = () => {
         <div className="flex gap-6 flex-col sm:flex-row justify-center items-center">
           <Button
             text="SignUp"
-            link="/auth/login"
+            link="/client/register"
             style="bg-white text-black border-black hover:bg-transparent hover:text-white hover:border-white hover:border-2"
           />
 

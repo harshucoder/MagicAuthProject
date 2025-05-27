@@ -9,7 +9,7 @@ interface CardsProps {
 
 const Cards: React.FC<CardsProps> = ({ icon, Heading, description }) => {
   return (
-    <div className="w-[360px] h-[200px] sm:w-[500px] sm:h-[300px] bg-transparent border-2 rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)]">
+    <div className="w-[20rem] h-[20rem] sm:w-[500px] sm:h-[300px] bg-transparent border-2 rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)]">
       {/* Card Image/Icon - Using Next.js optimized Image component */}
       <div className="w-[40px] h-[40px] ml-8 mt-9 drop-shadow-[0_0_15px_#00bfff]">
         <Image

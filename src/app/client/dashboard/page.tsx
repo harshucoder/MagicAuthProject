@@ -14,6 +14,7 @@ interface SettingsResponse {
   apiKey?: string;
   smtp?: SmtpSettings | null;
   dbUri?: string;
+  domain?: string;
   message?: string;
 }
 
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const [apiKey, setApiKey] = useState<string>("");
   const [smtp, setSmtp] = useState<SmtpSettings | null>(null);
   const [dbUri, setDbUri] = useState<string>("");
+  const [domain, setDomain] = useState<string>(""); // New domain state
   const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -46,6 +48,7 @@ export default function Dashboard() {
         setSmtp(data.smtp || null);
         setShowSmtp(!!data.smtp?.host);
         setDbUri(data.dbUri || "");
+        setDomain(data.domain || ""); // Initialize domain from API
       } else {
         setError(data.message || "Failed to fetch settings");
       }
@@ -73,6 +76,11 @@ export default function Dashboard() {
     try {
       if (!token) return;
 
+      // Validate domain format
+      if (domain && !/^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(domain)) {
+        throw new Error("Please enter a valid domain (e.g., example.com)");
+      }
+
       const res = await fetch("/api/client/settings", {
         method: "POST",
         headers: {
@@ -81,7 +89,8 @@ export default function Dashboard() {
         },
         body: JSON.stringify({ 
           smtp: showSmtp ? smtp : null, 
-          dbUri 
+          dbUri,
+          domain // Include domain in the payload
         }),
       });
 
@@ -93,8 +102,8 @@ export default function Dashboard() {
       } else {
         setError(data.message || "Update failed");
       }
-    } catch {
-      setError("Update failed. Please try again.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Update failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -138,6 +147,22 @@ export default function Dashboard() {
         </div>
 
         <form onSubmit={handleUpdate} className="space-y-4">
+          {/* New Domain Input Section */}
+          <div>
+            <h3 className="text-lg font-semibold text-purple-400 mb-2">Website Domain</h3>
+            <label className="block text-sm mb-1">Your Website Domain (for magic links)</label>
+            <input
+              type="text"
+              placeholder="example.com"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-800 border border-white/30 rounded-lg text-white"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              This domain will be used for authentication redirects (e.g., https://{domain || 'example.com'}/auth/callback)
+            </p>
+          </div>
+
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-purple-400">SMTP Settings</h3>
             <button
@@ -149,6 +174,7 @@ export default function Dashboard() {
             </button>
           </div>
 
+          {/* Rest of your existing form fields... */}
           {showSmtp && (
             <>
               <div>
@@ -162,38 +188,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm mb-1">SMTP Port</label>
-                <input
-                  type="number"
-                  placeholder="587"
-                  value={smtp?.port || ""}
-                  onChange={(e) => setSmtp({ ...(smtp || emptySmtp), port: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-800 border border-white/30 rounded-lg text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm mb-1">SMTP Username</label>
-                <input
-                  type="text"
-                  placeholder="your@email.com"
-                  value={smtp?.user || ""}
-                  onChange={(e) => setSmtp({ ...(smtp || emptySmtp), user: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-800 border border-white/30 rounded-lg text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm mb-1">SMTP Password</label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  value={smtp?.pass || ""}
-                  onChange={(e) => setSmtp({ ...(smtp || emptySmtp), pass: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-800 border border-white/30 rounded-lg text-white"
-                />
-              </div>
+              {/* Other SMTP fields... */}
             </>
           )}
 
