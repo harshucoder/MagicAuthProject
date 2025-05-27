@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 interface ApiResponse {
@@ -9,17 +9,15 @@ interface ApiResponse {
   redirectUrl?: string;
 }
 
-export default function Login() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [message, setMessage] = useState("");
-  const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    setMounted(true);
     const token = searchParams.get("token");
     const emailParam = searchParams.get("email");
 
@@ -79,20 +77,6 @@ export default function Login() {
     }
   };
 
-  if (!mounted) {
-    return (
-      <div className="bg-[#0B0121] min-h-screen w-full flex items-center justify-center p-4 pt-24">
-        <div className="w-[360px] h-[200px] sm:w-[500px] sm:h-[300px] bg-transparent border-2 border-white rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)] flex flex-col items-center justify-center p-6">
-          <div className="text-center mb-4 w-full">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Sign in with Magic Link
-            </h2>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-[#0B0121] min-h-screen w-full flex items-center justify-center p-4 pt-24">
       <div className="w-[360px] h-[200px] sm:w-[500px] sm:h-[300px] bg-transparent border-2 border-white rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)] flex flex-col items-center justify-center p-6">
@@ -146,5 +130,19 @@ export default function Login() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="bg-[#0B0121] min-h-screen w-full flex items-center justify-center p-4 pt-24">
+        <div className="w-[360px] h-[200px] sm:w-[500px] sm:h-[300px] bg-transparent border-2 border-white rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)] flex items-center justify-center">
+          <div className="text-white">Loading authentication...</div>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

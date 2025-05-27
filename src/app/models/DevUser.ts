@@ -27,6 +27,7 @@ const devUserSchema = new Schema(
         required: true,
       }
     }],
+    default: [],
     dbUri: { type: String }, // optional: their own DB
   },
   { timestamps: true }

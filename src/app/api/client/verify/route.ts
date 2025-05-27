@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "../../../lib/db";
 import DevUser from "../../../models/DevUser";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 
 interface Token {
   token: string;
@@ -56,7 +56,10 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       );
     }
 
-    // Remove used token
+    // Remove used token with check for tokens
+    if (!user.tokens) {
+      throw new Error("User tokens missing");
+    }
     user.tokens = user.tokens.filter((t: Token) => t.token !== token);
     await user.save();
 
@@ -67,12 +70,12 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
 
     // Generate JWT
     const jwtToken = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRY || "1h",
-      }
-    );
+  { userId: user._id },
+  process.env.JWT_SECRET!,
+  {
+    expiresIn: process.env.JWT_EXPIRY || "1h",
+  } as SignOptions
+);
 
     return NextResponse.json({ 
       token: jwtToken,

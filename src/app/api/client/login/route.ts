@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "../../../lib/db";
 import DevUser from "../../../models/DevUser";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 
 export async function POST(req: Request) {
   await connectDB();
@@ -20,9 +20,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: process.env.JWT_EXPIRY || "1h",
-    });
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: process.env.JWT_EXPIRY || "1h",
+      } as SignOptions
+    );
 
     return NextResponse.json({ token }, { status: 200 });
   } catch (error) {
