@@ -52,7 +52,7 @@ export default function ClientRegister() {
 
   return (
     <div className="bg-[#0B0121] min-h-screen w-full flex flex-col items-center justify-center p-4 pt-24 space-y-6">
-      <div className="w-[360px] sm:w-[500px] bg-transparent border-2 border-white rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)] flex flex-col items-center justify-center p-6">
+      <div className="w-[280px] sm:w-[500px] bg-transparent border-2 border-white rounded-[30px] shadow-[0_2px_10px_rgba(138,43,226,0.7)] flex flex-col items-center justify-center p-6">
         <div className="text-center mb-4 w-full">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Register for API Access</h2>
         </div>
