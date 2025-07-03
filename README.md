@@ -17,7 +17,7 @@ MagicAuth is a SaaS-based passwordless authentication system using **magic links
 ---
 
 ## 📁 Folder Structure
-
+```
 src/
 ├── app/
 │ ├── api/
@@ -46,10 +46,7 @@ src/
 │ ├── User.ts
 │ └── DevUser.ts
 
-yaml
-Copy
-Edit
-
+```
 ---
 
 ## 🛠️ Tech Stack
@@ -67,7 +64,7 @@ Edit
 
 ### 1. Clone the Repository
 
-```bash
+```
 git clone https://github.com/yourusername/MagicAuth.git
 cd MagicAuth
 2. Install Dependencies
@@ -77,12 +74,11 @@ Edit
 npm install
 # or
 pnpm install
+```
+
 3. Set Environment Variables
 Create .env.local in the root directory:
-
-env
-Copy
-Edit
+```
 MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/magicauth
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-app-password
@@ -97,12 +93,10 @@ npm run dev
 # or
 pnpm run dev
 Open http://localhost:3000
-
+```
 📦 API Endpoints
 1. Send Magic Link
-http
-Copy
-Edit
+```
 POST /api/auth/send-link
 {
   "email": "user@example.com"
@@ -122,7 +116,7 @@ POST /api/auth/verify
 /api/client/login
 
 /api/client/verify
-
+```
 📄 Documentation
 A full documentation page is available at:
 /documentation route on your local or hosted deployment.
@@ -143,8 +137,6 @@ Include hero section, login screen, dashboard, and magic link email previews
 
 🙋‍♂️ Team Members
 Harsh Kushwaha – Frontend & Backend
-
-[Add others if any]
 
 🧪 Future Scope
 Multi-provider SMTP
